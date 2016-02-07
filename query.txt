@@ -1,0 +1,30 @@
+query ghdemo($username: String!, $repoName1: String!, $repoName2: String!) {
+  repo1: repo(ownerUsername: $username, name: $repoName1) {
+    ...repo
+  }
+  repo2: repo(ownerUsername: $username, name: $repoName2) {
+    ...repo
+  }
+}
+
+fragment auth on UserOrStringType {
+  ... on GithubUser {
+    login
+    avatar_url
+  }
+  ... on GithubCommitAuthor {
+    name
+    email
+  }
+}
+
+fragment repo on GithubRepo {
+  name
+  commits {
+    message
+    sha
+    author {
+      ...auth
+    }
+  }
+}
