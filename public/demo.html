@@ -14,9 +14,8 @@
 <body>
   <script>
         var request = new XMLHttpRequest();
-        var query = encodeURI('query repo {repo(ownerUsername: "mackenza", name: "vimfiles") {' +
-                'name, commits { message, author { ... on GithubUser { login}}}' +
-                '}}&raw');
+        var query = encodeURI('query repo {repo(ownerUsername: "mackenza", name: "vimfiles") {name}}') + '&raw';
+        console.log(query);
         request.open('GET', 'http://localhost:3000?query=' + query, true);
 
         request.onload = function() {
