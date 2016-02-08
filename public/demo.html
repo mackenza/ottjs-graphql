@@ -5,34 +5,58 @@
   <meta charset="utf-8">
 
   <title>Ottawa JS GraphQL Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/skeleton/2.0.4/css/skeleton.css">  
 </head>
 
 <body>
-  <script>
+    <div class="container">
+    <h3>GraphQL Demo - List Commit History for GitHub Repo</h3>
+        <form>
+        <div class="row">
+            <div class="three columns">
+                <input type="text" placeholder="GitHub User/Org" class="u-full-width" id="txtuser" />
+            </div>
+            <div class="three columns">
+                <input type="text" placeholder="Repo Name" class="u-full-width" id="txtrepo" />
+            </div>
+            <div class="one column">
+                <input value="Get Commits" type="submit" class="button-primary" id="getBtn" />
+            </div>    
+        </div>
+        
+        </form>
+    </div>
+  <script>      
+      var getBtn = document.getElementById("getBtn");
+      getBtn.addEventListener("click", function () {
+        var newData;
         var request = new XMLHttpRequest();
-        var query = encodeURI('query repo {repo(ownerUsername: "mackenza", name: "vimfiles") {name}}') + '&raw';
-        console.log(query);
+        var query = encodeURI('query repo {repo(ownerUsername: "mackenza", name: "vimfiles") {name' +
+            ', commits {message}' +
+            '}}') + '&raw';
+        // console.log(query);
         request.open('GET', 'http://localhost:3000?query=' + query, true);
 
         request.onload = function() {
-          if (request.status >= 200 && request.status < 400) {
+            if (request.status >= 200 && request.status < 400) {
             // Success!
-            console.log(JSON.parse(request.responseText));
-          } else {
+             newData = JSON.parse(request.responseText);
+             console.log(newData);
+            } else {
             // We reached our target server, but it returned an error
             console.log("oops");
-          }
+            }
         };
 
         request.onerror = function() {
-          // There was a connection error of some sort
+            // There was a connection error of some sort
         };
 
         request.send();
+      }, false);
   </script>
 </body>
 </html>
