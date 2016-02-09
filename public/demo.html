@@ -23,40 +23,49 @@
                 <input type="text" placeholder="Repo Name" class="u-full-width" id="txtrepo" />
             </div>
             <div class="one column">
-                <input value="Get Commits" type="submit" class="button-primary" id="getBtn" />
+                <input value="Get Commits" type="button" class="button-primary" id="getBtn" />
             </div>    
         </div>
         
         </form>
+        <div id="output"></div>
     </div>
   <script>      
-      var getBtn = document.getElementById("getBtn");
-      getBtn.addEventListener("click", function () {
-        var newData;
-        var request = new XMLHttpRequest();
-        var query = encodeURI('query repo {repo(ownerUsername: "mackenza", name: "vimfiles") {name' +
+    var getBtn = document.getElementById("getBtn");
+    var output = document.getElementById("output");
+
+    function doRequest() {
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+        console.log('Request readyState is', xhr.readyState);
+        if(xhr.readyState == XMLHttpRequest.DONE) {
+        console.log('Request completed');
+        console.log('Response status code is', xhr.status);
+        
+        if(xhr.status == 200) {
+            console.log('Response body is', xhr.responseText);
+            output.innerText = xhr.responseText;
+            
+        } else {
+            alert('Oops! ' + xhr.status);
+        }
+        console.log('Done!');
+        }
+    };
+
+    console.log('Opening the request...')
+    var query = 'query repo {repo(ownerUsername: "mackenza", name: "vimfiles") {name' +
             ', commits {message}' +
-            '}}') + '&raw';
-        // console.log(query);
-        request.open('GET', 'http://localhost:3000?query=' + query, true);
+            '}}&raw';
+    xhr.open('GET', 'http://localhost:3000/gh?query=' + query, true);
 
-        request.onload = function() {
-            if (request.status >= 200 && request.status < 400) {
-            // Success!
-             newData = JSON.parse(request.responseText);
-             console.log(newData);
-            } else {
-            // We reached our target server, but it returned an error
-            console.log("oops");
-            }
-        };
+    console.log('Sending the request...')
+    xhr.send();
+    console.log('Waiting for the request to complete...');
+}
 
-        request.onerror = function() {
-            // There was a connection error of some sort
-        };
-
-        request.send();
-      }, false);
+    getBtn.addEventListener('click', doRequest, true);
   </script>
 </body>
 </html>
