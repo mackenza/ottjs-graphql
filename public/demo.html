@@ -51,7 +51,7 @@
     };
 
     console.log('Opening the request...')
-    var query = 'query repo {repo(ownerUsername: "mackenza", name: "vimfiles") {name' +
+    var query = 'query repo {repo(ownerUsername: "mackenza", name: "ottjs-graphql") {name' +
             ', commits {message}' +
             '}}&raw';
     xhr.open('GET', 'http://localhost:3000/gh?query=' + query, true);
