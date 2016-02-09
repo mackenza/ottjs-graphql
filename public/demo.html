@@ -42,7 +42,7 @@
         if(xhr.readyState == XMLHttpRequest.DONE) {
                
         if(xhr.status == 200) {
-            output.innerText = JSON.parse(xhr.responseText);
+            output.innerText = xhr.responseText;
             
         } else {
             alert('Oops! ' + xhr.status);
