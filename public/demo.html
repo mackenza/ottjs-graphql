@@ -38,19 +38,15 @@
 
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
-        console.log('Request readyState is', xhr.readyState);
-        if(xhr.readyState == XMLHttpRequest.DONE) {
-        console.log('Request completed');
-        console.log('Response status code is', xhr.status);
         
+        if(xhr.readyState == XMLHttpRequest.DONE) {
+               
         if(xhr.status == 200) {
-            console.log('Response body is', xhr.responseText);
-            output.innerText = xhr.responseText;
+            output.innerText = JSON.parse(xhr.responseText);
             
         } else {
             alert('Oops! ' + xhr.status);
         }
-        console.log('Done!');
         }
     };
 
@@ -59,10 +55,7 @@
             ', commits {message}' +
             '}}&raw';
     xhr.open('GET', 'http://localhost:3000/gh?query=' + query, true);
-
-    console.log('Sending the request...')
     xhr.send();
-    console.log('Waiting for the request to complete...');
 }
 
     getBtn.addEventListener('click', doRequest, true);
