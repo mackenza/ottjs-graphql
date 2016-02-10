@@ -44,24 +44,24 @@
   <script src="./ejs.min.js"></script>
   
   <script>
-    var template = '<table>' +
-        '<thead>' +
-            '<tr>' + 
-                '<% if (useAuthor) { %><th>Author</th><% } %>' +
-                '<th>Commit Message</th>' +
-                '<% if (useSHA) { %><th>SHA</th><% } %>' +
-            '</tr>' +
-        '</thead>' +
-        '<tbody>' +
-           '<% for(var i=0; i < commits.length; i++) { %>' +
-           '<tr>' +
-               '<% if (useAuthor) { %><td><%= commits[i].author.login %></td><% } %>' +
-               '<td><%= commits[i].message %></td>' +
-               '<% if (useSHA) { %><td><%= commits[i].sha %></td><% } %>' +
-           '</tr>' +
-           '<% } %>' +
-        '</tbody>' +
-    '</table>';
+    var template = '<table> \
+        <thead> \
+            <tr> \
+                <% if (useAuthor) { %><th>Author</th><% } %> \
+                <th>Commit Message</th> \
+                <% if (useSHA) { %><th>SHA</th><% } %> \
+            </tr> \
+        </thead> \
+        <tbody> \
+           <% for(var i=0; i < commits.length; i++) { %> \
+           <tr> \
+               <% if (useAuthor) { %><td><%= commits[i].author.login %></td><% } %> \
+               <td><%= commits[i].message %></td> \
+               <% if (useSHA) { %><td><%= commits[i].sha %></td><% } %> \
+           </tr> \
+           <% } %> \
+        </tbody> \
+    </table>';
         
     var getBtn = document.getElementById("getBtn");    
 

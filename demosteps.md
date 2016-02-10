@@ -9,4 +9,4 @@
 1. introduce a fragment for author on UserOrStringType
 1. show nesting that fragment in another on repo
 1. introduce query variables add one for each repoName and just 1 for owner. emphasize data type and ! for required
-1. 
+1. introspection - look at __schema and __
