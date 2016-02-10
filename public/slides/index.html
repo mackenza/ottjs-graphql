@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Intro To GraphQL</title>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="screen-16x10.css">
+</head>
+<body class="shower list">
+	<header class="caption">
+		<h1>Intro To GraphQL</h1>
+		<p>by Andrew MacKenzie</p>
+	</header>
+	<section class="slide" id="cover">
+		<h2>Intro To GraphQL</h2>
+		<p>A quick introduction by <a href="https://github.com/mackenza">Andrew MacKenzie</a></p>
+		<p>For <a href="http://ottawajs.org/">Ottawa JS</a> Meetup - Feb 10, 2016</p>
+		<img src="./images/logo.svg" style="height: 250px; width: 200px;"></img>
+	</section>
+	<section class="slide">
+		<h2>What is GraphQL?</h2>
+		<figure>
+			<blockquote>
+				<p>GraphQL is a data query language and runtime designed and used at Facebook to request and deliver data to mobile and web apps since 2012.</p>
+			</blockquote>
+			<figcaption>from the <a href="http://graphql.org">GraphQL website</a></figcaption>
+		</figure>
+		<ul>
+			<li class="next">Declarative</li>
+			<li class="next">Product-centric</li>
+			<li class="next">Strongly-typed & Introspective</li>
+		</ul>
+	</section>
+	<section class="slide" id="history">
+		<h2>History</h2>
+		<p>Part of the Facebook tooling (really a loosely-coupled framework) to solve some of the 
+			business/scale issues Facebook sees deploying their Web and Mobile applications.</p>
+		<img src="./images/fb_arch.jpg"></img>
+		<style>
+			#history img {
+				height: 50%;
+				width: 50%;
+				margin-left: 150px;
+			}
+		</style>
+	</section>
+	<section class="slide">
+		<h2>What Problems Does GraphQL Address?</h2>
+		<ul>
+			<li class="next">Less data transferred - Only the requested data elements are
+				returned from the server, therefore minimizing the amount of data sent.</li>
+			<li class="next">Alleviates "endpoint hell" - there is only one endpoint per
+				GraphQL schema. Changes are done on the schema, not endpoints.</li>
+			<li class="next">Abstraction from actual data structure. Client is aware of what data it needs, but needn't worry about the physical
+				representation of the data store(s).</li>
+			</ul>
+		</section>
+	
+		<div class="progress"></div>
+	<script src="shower.min.js"></script>
+</body>
+</html>
