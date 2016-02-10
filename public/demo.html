@@ -6,9 +6,8 @@
 
   <title>Ottawa JS GraphQL Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
- <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/skeleton/2.0.4/css/skeleton.css">  
+    <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/skeleton/2.0.4/css/skeleton.css">  
 </head>
 
 <body>
@@ -25,49 +24,93 @@
             <div class="one column">
                 <input value="Get Commits" type="button" class="button-primary" id="getBtn" />
             </div>    
+        </div>        
+        <div class="row">
+            <label>
+                <input id="checkAuthor" type="checkbox" checked="true">
+                <span class="label-body">Include <strong>Author</strong> information?</span>
+            </label>
+            <label>
+                <input id="checkSHA" type="checkbox" checked="true">
+                <span class="label-body">Include <strong>SHA</strong> information?</span>
+            </label>
         </div>
-        
         </form>
-        <div id="output"></div>
+        <div class="row">
+            <div id="output"></div>
+        </div>
     </div>
+  
+  <script src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js" />
+  
+  <script id="commits-table" type="text/x-handlebars-template">
+    <table>
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Commit Message</th>
+                <th>SHA</th>
+            </tr>
+        </thead>
+        <tbody>
+           {{#data.repo.commits}}
+           <tr>
+               <td>{{author.login}}</td>
+               <td>{{message}}</td>
+               <td>{{sha}}</td>
+           </tr>
+           {{/data.repo.commits}}
+        </tbody>
+    </table>
+  </script>
+  
   <script>      
-    var getBtn = document.getElementById("getBtn");
-    var output = document.getElementById("output");
-		var username = document.getElementById("txtuser");
-		var reponame = document.getElementById("txtrepo");
+    var getBtn = document.getElementById("getBtn");    
+    var template = document.getElementById("commits-table");
+    var table = Handlebars.compile(template.innerHTML);
 
     function doRequest() {
-
         var xhr = new XMLHttpRequest();
+        var authorFrag = '';
+        var sha = '';
+        var output = document.getElementById("output");
+        var username = document.getElementById("txtuser"),
+            reponame = document.getElementById("txtrepo"),
+            authorChecked = document.getElementById("checkAuthor"),
+            shaChecked = document.getElementById("checkSHA");
+            
+        if (authorChecked.checked) {
+            authorFrag = 'author { ... on GithubUser { login avatar_url }} ';
+        }
+        if (shaChecked.checked) {
+            sha = 'sha ';
+        }
+        
+        var query = 'query repo ($username: String!, $reponame: String!)' +
+            '{repo(ownerUsername: $username, name: $reponame)' +
+            '{name, commits { message ' +
+            authorFrag +
+            sha +
+            '}}}&variables={"username": "' + username.value + '", ' +
+            '"reponame": "' + reponame.value + '"}' +
+            '&raw';
+	    console.log(query);
+        
         xhr.onreadystatechange = function() {
         
-        if(xhr.readyState == XMLHttpRequest.DONE) {
-               
-        if(xhr.status == 200) {
-            output.innerText = xhr.responseText;
-						console.log(JSON.parse(xhr.responseText));
-            
-        } else {
-            alert('Oops! ' + xhr.status);
-        }
-        }
-    };
-		
-		const authorFrag = 'author { ... on GithubUser { login avatar_url }} ';
-		const sha = 'sha ';
-		
-    var query = 'query repo ($username: String!, $reponame: String!)' +
-						'{repo(ownerUsername: $username, name: $reponame)' +
-						'{name, commits { message ' +
-						authorFrag +
-						sha +
-						'}}}&variables={"username": "' + username.value + '", ' +
-  					'"reponame": "' + reponame.value + '"}' +
-						'&raw';
-		console.log(typeof(query));
-    xhr.open('GET', 'http://localhost:3000/gh?query=' + query, true);
-    xhr.send();
-}
+            if(xhr.readyState == XMLHttpRequest.DONE) {
+                
+                if(xhr.status == 200) {
+                    output.innerText = table(xhr.responseText);
+                } else {
+                    alert('Oops! ' + xhr.status);
+                }
+            }
+        };
+	
+        xhr.open('GET', 'http://localhost:3000/gh?query=' + query, true);
+        xhr.send();
+    }
 
     getBtn.addEventListener('click', doRequest, true);
   </script>
