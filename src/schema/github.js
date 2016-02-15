@@ -16,6 +16,7 @@ import {
   GraphQLEnumType,
   GraphQLInt,
   GraphQLList,
+  GraphQLBoolean,
   GraphQLUnionType,
 } from 'graphql';
 
@@ -127,6 +128,19 @@ let RepoType = new GraphQLObjectType({
   fields : {
     id : { type : GraphQLInt },
     name : { type : GraphQLString },
+    full_name: {type: GraphQLString},
+    description : { type : GraphQLString },
+    private: {type: GraphQLBoolean},
+    fork: {type: GraphQLBoolean},
+    language: {type: GraphQLString},
+    forks_count: {type: GraphQLInt},
+    stargazers_count: {type: GraphQLInt},
+    watchers_count: {type: GraphQLInt},
+    size: {type: GraphQLInt},
+    default_branch: {type: GraphQLString},
+    open_issues_count: {type: GraphQLInt},
+    has_issues: {type: GraphQLBoolean},
+    has_wiki: {type: GraphQLBoolean},
     commits : {
       type : new GraphQLList(CommitType),
       resolve(repo) {
